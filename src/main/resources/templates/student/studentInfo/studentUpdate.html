@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生详细信息修改</title>
+    <!-- 引入Bootstrap样式表 -->
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../static/css/style.css">
+    <style>
+        /* 自定义样式 */
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<!-- 返回主页 -->
+<a href="/student/studentHome">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<div class="container mt-5">
+    <h2 class="text-center">学生详细信息修改</h2>
+    <form>
+        <div class="form-group">
+            <label for="studentID">学号:</label>
+            <input type="text" class="form-control" id="studentID" name="sNo" th:value="${student.SNo}"
+                   disabled>
+        </div>
+        <div class="form-group">
+            <label for="studentName">姓名:</label>
+            <input type="text" class="form-control" id="studentName" name="sName" th:value="${student.SName}">
+        </div>
+        <div class="form-group">
+            <label for="password">密码:</label>
+            <input type="password" class="form-control" id="password" name="password"
+                   th:value="${student.password}">
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">手机号:</label>
+            <input type="text" class="form-control" id="phoneNumber" name="sPhone"
+                   th:value="${student.SPhone}">
+        </div>
+        <div class="form-group">
+            <label for="idCard">身份证:</label>
+            <input type="text" class="form-control" id="idCard" name="idCard" th:value="${student.idCard}"
+                   disabled>
+        </div>
+        <div class="form-group">
+            <label for="classNo">班级:</label>
+            <input type="text" class="form-control" id="classNo" name="classNo"
+                   th:value="${student.stuClass.className}"
+                   disabled>
+        </div>
+        <button type="button" class="btn btn-primary btn-block" id="save">保存</button>
+    </form>
+</div>
+
+<!-- 引入Bootstrap JavaScript库 -->
+<script src="../../../static/js/jquery.js"></script>
+<script src="../../../static/js/popper.min.js"></script>
+<script src="../../../static/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // 保存原始值
+        var originalPassword = $('#password').val();
+        var originalPhoneNumber = $('#phoneNumber').val();
+
+        $('#save').click(function () {
+            var sno = $("#studentID").val();
+            var sName = $("#studentName").val();
+            var password = $('#password').val();
+            var sphone = $("#phoneNumber").val();
+            var idCard = $("#idCard").val();
+
+            // 使用正则表达式来验证密码
+            var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,30}$/;
+
+            // 使用正则表达式来验证手机号
+            var phoneRegex = /^\d{11}$/;
+
+            // 检查密码和手机号是否与原始值不同
+            if (password !== originalPassword || sphone !== originalPhoneNumber) {
+                if (passwordRegex.test(password) && sphone === originalPhoneNumber) {
+                    // 密码与原始值不同，手机号与原始值相同
+                    // 密码满足手机不变，发送POST请求
+                    $.post("/student/updateStudent", {
+                        "sNo": sno,
+                        "sName": sName,
+                        "password": password,
+                        "sPhone": sphone,
+                        "idCard": idCard,
+                    }, function (data, status) {
+                        if (data === 0) {
+                            alert("信息修改成功");
+                            window.location.href = "/student/studentHome";
+                        } else {
+                            alert("信息修改失败");
+                        }
+                    });
+                } else if (password === originalPassword && phoneRegex.test(sphone)) {
+                    // 密码与原始值相同，手机号与原始值不同
+                    // 密码不变手机满足，发送POST请求
+                    $.post("/student/updateStudent", {
+                        "sNo": sno,
+                        "sName": sName,
+                        "password": password,
+                        "sPhone": sphone,
+                        "idCard": idCard,
+                    }, function (data, status) {
+                        if (data === 0) {
+                            alert("信息修改成功");
+                            window.location.href = "/student/studentHome";
+                        } else {
+                            alert("信息修改失败");
+                        }
+                    });
+                } else if (passwordRegex.test(password) && phoneRegex.test(sphone)) {
+                    // 密码和手机号与原始值不同，进行验证
+                    // 密码和手机号都满足要求，发送POST请求
+                    $.post("/student/updateStudent", {
+                        "sNo": sno,
+                        "sName": sName,
+                        "password": password,
+                        "sPhone": sphone,
+                        "idCard": idCard,
+                    }, function (data, status) {
+                        if (data === 0) {
+                            alert("信息修改成功");
+                            window.location.href = "/student/studentHome";
+                        } else {
+                            alert("信息修改失败");
+                        }
+                    });
+                } else {
+                    // 密码或手机号不符合要求，弹出相应的提示信息
+                    if (password !== originalPassword) {
+                        if (!passwordRegex.test(password)) {
+                            alert("密码不符合要求，请确保至少包含一个大写字母、一个小写字母、一个数字和一个特殊符号，且长度为6-30位。");
+                            // 还原密码输入框的内容
+                            $('#password').val(originalPassword);
+                        }
+                    }
+                    if (sphone !== originalPhoneNumber) {
+                        if (!phoneRegex.test(sphone)) {
+                            alert("手机号不符合要求，请确保为11位数字。");
+                            // 还原手机号输入框的内容
+                            $('#phoneNumber').val(originalPhoneNumber);
+                        }
+                    }
+                }
+            } else {
+                // 密码和手机号与原始值相同，直接发送POST请求
+                $.post("/student/updateStudent", {
+                    "sNo": sno,
+                    "sName": sName,
+                    "password": password,
+                    "sPhone": sphone,
+                    "idCard": idCard,
+                }, function (data, status) {
+                    if (data === 0) {
+                        alert("信息修改成功");
+                        window.location.href = "/student/studentHome";
+                    } else {
+                        alert("信息修改失败");
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

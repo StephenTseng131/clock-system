@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./../../../static/css/style.css" rel="stylesheet"/>
+    <link href="./../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="./../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>社团审批</title>
+</head>
+
+<body>
+<!-- 返回社团指导页面 -->
+<a href="/teacher/societyGuide">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<div class="p-4">
+    <div class="d-flex flex-column col-md-10 mx-auto mt-5 p-4 rounded-4 gap-4 border border-4 border-dark-subtle">
+        <img th:src="'data:image/png;base64,' + ${imageData}" class="rounded mx-auto d-block imageChange" style="height: 200px;width: 200px" id="sign" alt="无法找到图片">
+        <p class="fs-4 m-0 p-0">申请编号：
+            <abc th:text="${applicationDetail.applicationNo}" id="first"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">申请人：&emsp;<abc th:text="${applicationDetail.student.SName}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">申请类型：
+            <abc th:if="${applicationDetail.type}==0" id="second">申请您为指导老师</abc>
+            <abc th:if="${applicationDetail.type}==1" id="second">修改社团信息</abc>
+        </p>
+        <p class="fs-4 m-0 p-0">社团名称：
+            <abc th:text="${applicationDetail.societyName}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">社团介绍：
+            <abc th:text="${applicationDetail.introduce}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0" th:if="${applicationDetail.type}==0">申请原因：
+            <abc th:text="${applicationDetail.reason}"></abc>
+        </p>
+        <div class="d-inline-flex flex-row gap-5 mt-3 col-md-6 mx-auto">
+            <button type="button" class="btn btn-success me-5" id="yes">同&emsp;意</button>
+            <button type="button" class="btn btn-danger ms-5" id="no">不同意</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="./../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="./../../../static/js/jquery.js"></script>
+<script>
+    var first = $("abc#first").text();
+    var second = $("abc#second").text();
+    $('#yes').click(function () {
+        $.post("/teacher/updateApplicationStatus", {
+            "result": 1,
+            "type": second,
+            "applicationNo": first
+        }, function () {
+            window.location.href = "/teacher/societyGuide";
+        })
+    })
+    $('#no').click(function () {
+        $.post("/teacher/updateApplicationStatus", {
+            "type": second,
+            "result": 2,
+            "applicationNo": first
+        }, function () {
+            window.location.href = "/teacher/societyGuide";
+        })
+    })
+</script>
+</body>
+
+</html>

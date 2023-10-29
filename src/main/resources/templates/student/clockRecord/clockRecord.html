@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../static/css/style.css" rel="stylesheet"/>
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <title>考勤记录</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/student/studentHome">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<br/>
+<br/>
+<div class="container mt-4" id="infoContent">
+    <h2>考勤记录管理</h2>
+    <div class="container" id="search">
+        <div class="row">
+            <div class="col-md-5">
+                <form action="/student/clockRecordSearch" method="post">
+                    <div class="input-group justify-content-center">
+                        <input id="search-input" name="searchContent" type="text" class="form-control" placeholder="请输入筛选内容">
+                        <div class="input-group-append">
+                            <button id="search-btn" class="btn btn-primary" type="submit">筛选</button>
+                        </div>
+                        <!-- <button id="student-add" class="btn btn-success" type="button"><a href="./addStudent.html">添加学生</a></button> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>学号</th>
+            <th>班级</th>
+            <th>姓名</th>
+            <th>课程</th>
+            <th>时间</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody th:if="${pages.list}!=null">
+        <tr th:each="item:${pages.list}" class="theMain">
+            <td th:text="${item.clockNo}" class="first"></td>
+            <td th:text="${session.student.SNo}" ></td>
+            <td th:text="${session.student.stuClass.className}"></td>
+            <td th:text="${session.student.SName}"></td>
+            <td th:text="${item.course.courseName}"></td>
+            <td th:text="${item.time}"></td>
+            <td th:if="${item.status==0}">出勤</td>
+            <td th:if="${item.status==1}">缺勤</td>
+            <td th:if="${item.status==2}">请假</td>
+            <td>
+                <button class="btn btn-danger appeal" th:if="${item.status==1 && item.appealStatus!=1}">申诉</button>
+<!--                <button class="btn btn-primary appeal" th:if="${item.status==1}">详情</button>-->
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example" th:if="${pages.pages > 1 && pages.pages <6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/student/clockRecord(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:each="index:${#numbers.sequence(1,pages.pages)}"
+                th:class="${index==pages.pageNum?'active':''}"><a class="page-link" th:text="${index}"
+                                                                  th:href="@{/student/clockRecord(pageNum=${index})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/student/clockRecord(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+    <nav aria-label="Page navigation example" th:if="${pages.pages >= 6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/student/clockRecord(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:if="${pages.pageNum > 2}"><a class="page-link"
+                                                                  th:href="@{/student/clockRecord(pageNum=1)}">1</a></li>
+            <li class="page-item" th:if="${pages.pageNum > 3}"><span class="page-link">...</span></li>
+            <li class="page-item" th:each="index:${#numbers.sequence(pages.pageNum - 1,pages.pageNum+1)}"
+                th:if="${index >= 1 && index <= pages.pages}" th:class="${index==pages.pageNum?'active':''}"><a
+                    class="page-link" th:text="${index}" th:href="@{/student/clockRecord(pageNum=${index})}"></a></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 2}"><span class="page-link">...</span></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 1}"><a class="page-link"
+                                                                                th:text="${pages.pages}"
+                                                                                th:href="@{/student/clockRecord(pageNum=${pages.pages})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/student/clockRecord(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+    $('.appeal').click(function () {
+        var theMain = $(this).parent().parent();
+        var first = theMain.find(".first").text();
+        $.post("/student/stuAppeal", {
+            "clockNo": first
+        },function () {
+            window.location.href = "/student/appeal"
+        }).fail(function(data,status){
+            alert("error")
+        })
+    })
+</script>
+</body>
+
+</html>

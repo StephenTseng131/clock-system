@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/css/style.css" rel="stylesheet">
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet">
+    <link href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet">
+    <title>活动申请</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/society/societyHome">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png">
+        <span>返回</span>
+    </div>
+</a>
+<div class="p-5">
+    <div class="d-flex flex-column col-md-8 mx-auto mt-5 p-4 rounded-4 border border-4 border-dark-subtle">
+        <h1 class="display-6 mx-auto fw-bold">社团信息</h1>
+        <form action="/society/modifySocietyInfo" method="post" class="d-flex flex-column" enctype="multipart/form-data">
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text" id="picture">社团团徽</span>
+                <label for="pictureInput" style="cursor: pointer">
+                    <img id="imagePreview" th:src="'data:image/png;base64,' + ${imageData}" alt="Preview"
+                         style="width: 200px; height: 200px;">
+                </label>
+                <input type="file" id="pictureInput" name="picture" accept="image/*" style="display: none;">
+            </div>
+
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">社团账号</span>
+                <input type="text" class="form-control" aria-label="id" aria-describedby="addon-wrapping" name="societyId" id="societyId" th:value="${societyDetail.societyId}" disabled>
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">账号密码</span>
+                <input type="text" class="form-control" aria-label="password" aria-describedby="addon-wrapping" name="password" id="password" th:value="${societyDetail.password}">
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">社团名称</span>
+                <input type="text" class="form-control" aria-label="name" aria-describedby="addon-wrapping" name="societyName" id="societyName" th:value="${societyDetail.societyName}">
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">创始人员</span>
+                <input type="text" class="form-control" aria-label="creator" aria-describedby="addon-wrapping" id="sName" th:value="${societyDetail.student.sName}" disabled>
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">指导老师</span>
+                <span class="input-group-text">学院</span>
+                <select class="form-select form-control m-0 border border-right" name="departmentNo" id="department">
+                    <!-- 这里显示学院 -->
+                    <option th:each="department:${departmentList}" th:value="${department.departmentNo}" th:text="${department.departmentName}" th:selected="${department.departmentNo==societyDetail.teacher.departmentNo}"></option>
+                </select>
+                <span class="input-group-text">教师</span>
+                <select class="form-select form-control m-0 border border-left" name="tNo" id="teacherNo">
+                    <!-- 此处将显示相应的老师 -->
+                    <option  th:each="teacher:${teacherList}" th:value="${teacher.tNo}" th:text="${teacher.tName}" th:selected="${teacher.tNo==societyDetail.tNo}"></option>
+                </select>
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">社团介绍</span>
+                <textarea type="text" class="form-control" aria-label="introduce" aria-describedby="addon-wrapping" name="introduce" id="introduce" th:text="${societyDetail.introduce}"></textarea>
+            </div>
+            <div class="d-inline-flex flex-row gap-5 mt-3 col-md-12 mx-auto justify-content-end">
+                <label th:if="${errMsg}!=null" th:text="${errMsg}" class="text-danger me-auto fs-5"></label>
+                <a href="/society/societyInfo" class="btn btn-secondary ">重&emsp;置</a>
+                <button type="submit" class="btn btn-primary ">提&emsp;交</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+    // 修改图片
+    $(".imageChange").click(function () {
+        var addImage = $("#formFile")
+        addImage.on("change", function () {
+            $("#imageDisplay").html('图片已经更改')
+        })
+        addImage.trigger("click")
+    })
+
+
+    //根据学院编号获取学院的老师
+    $("#department").change(function () {
+        const selectedDepartment = $(this).val()
+        $("#teacherNo").empty()
+
+        $.get("/society/departmentTeachers", {
+            "departmentNo": selectedDepartment
+        }, function (data) {
+            // 在成功回调中处理从后端获取的数据
+            $.each(data, function (index, teacher) {
+                $("#teacherNo").append($("<option>").val(teacher.tno).text(teacher.tname));
+            });
+        })
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $('#pictureInput').on('change', function () {
+            const input = this;
+            const imagePreview = $('#imagePreview');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    imagePreview.attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

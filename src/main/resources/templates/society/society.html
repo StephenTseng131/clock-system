@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- SITE TITLE -->
+    <title>方圆考勤系统</title>
+    <link href="./../../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./../../static/css/font-awesome.min.css" rel="stylesheet">
+    <link href="./../../static/css/style.css" rel="stylesheet">
+</head>
+
+<body data-spy="scroll" data-offset="80">
+<!-- 返回主页 -->
+<a href="/logout">
+    <div class="back-to-index">
+        <img class="image" src="../../static/images/return.png" />
+        <span>退出</span>
+    </div>
+</a>
+<div class="float-md-right m-2 p-2 border-right-0 rounded shadow">
+    <h5 class="text-secondary d-inline">欢迎<a class="text-primary" th:text="${session.society.societyName}"></a>社团进入</h5>
+    <i class="fa fa-eye d-inline text-info" style="font-size:23px"></i>
+    <i class="fa fa-eye d-inline m-2 text-info" style="font-size:23px"></i>
+</div>
+<!-- START SERVICE -->
+<section id="service" class="section_padding">
+    <div class="container">
+        <div class="section_heading text-center wow zoomIn">
+            <h2>方圆 <span>考勤系统</span></h2>
+            <div class="section_heading_border">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div> <!-- END HEADING -->
+
+        <div class="row text-center">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="single-service wow fadeInLeft">
+                    <i class="fa fa-desktop"></i>
+                    <h4><a href="/society/societyInfo">社团信息</a></h4>
+                </div>
+            </div>
+            <!--End Col-->
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="single-service wow fadeInUp">
+                    <i class="fa fa-pie-chart"></i>
+                    <h4><a href="/society/activityManage">活动管理</a></h4>
+                </div>
+            </div> <!-- End Col -->
+        </div>
+    </div> <!-- END CONTAINER -->
+</section>
+<!-- END SERVICE -->
+
+<!-- Start jQuery -->
+<script src="./../../static/js/jquery.js"></script>
+<!-- Latest compiled and minified Bootstrap -->
+<script src="./../../static/js/bootstrap.min.js"></script>
+</body>
+</html>

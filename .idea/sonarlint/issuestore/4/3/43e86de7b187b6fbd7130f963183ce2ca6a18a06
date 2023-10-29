@@ -1,0 +1,19 @@
+
+c
+java:S1192G"HDefine a constant instead of duplicating this literal "student" 3 times.(ıçü”øÿÿÿÿ
+a
+java:S1192A"FDefine a constant instead of duplicating this literal "admin" 3 times.(éÚìÿÿÿÿÿ
+b
+java:S1192S"GDefine a constant instead of duplicating this literal "office" 3 times.(‡•óßÿÿÿÿÿ
+b
+java:S1192X"GDefine a constant instead of duplicating this literal "/index" 4 times.(ûœ°øÿÿÿÿ
+c
+java:S1192M"HDefine a constant instead of duplicating this literal "society" 3 times.(Ê¯µ‰ûÿÿÿÿ
+^
+java:S1192;"HDefine a constant instead of duplicating this literal "teacher" 3 times.(§¡„
+e
+java:S1192"GDefine a constant instead of duplicating this literal "123456" 4 times.(•å’8´‡“½µ1
+m
+java:S4144n"WUpdate this method so that its implementation is not identical to "logout" on line 100.(÷Ö
+t
+java:S37762"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ğ ‡úÿÿÿÿ8ã‡“½µ1

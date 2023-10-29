@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/css/style.css" rel="stylesheet"/>
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>考勤统计</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/teacher/classCount">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<div class="d-flex btn-group-vertical mt-4 col-md-8 m-auto">
+    <h1 class="display-6 d-block m-auto fw-bolder" role="heading" th:if="${session.value=='present'}">出勤记录</h1>
+    <h1 class="display-6 d-block m-auto fw-bolder" role="heading" th:if="${session.value=='absent'}">缺勤记录</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">时间</th>
+            <th scope="col">课程名称</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider" th:if="${pages.list}!=null">
+        <tr th:each="item:${pages.list}">
+            <td th:text="${#dates.format(item.time, 'HH:mm:ss')}"></td>
+            <td th:text="${item.course.courseName}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example" th:if="${pages.pages > 1 && pages.pages <6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/teacher/classCountDetail(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:each="index:${#numbers.sequence(1,pages.pages)}"
+                th:class="${index==pages.pageNum?'active':''}"><a class="page-link" th:text="${index}"
+                                                                  th:href="@{/teacher/classCountDetail(pageNum=${index})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/teacher/classCountDetail(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+    <nav aria-label="Page navigation example" th:if="${pages.pages >= 6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/teacher/classCountDetail(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:if="${pages.pageNum > 2}"><a class="page-link"
+                                                                  th:href="@{/teacher/classCountDetail(pageNum=1)}">1</a></li>
+            <li class="page-item" th:if="${pages.pageNum > 3}"><span class="page-link">...</span></li>
+            <li class="page-item" th:each="index:${#numbers.sequence(pages.pageNum - 1,pages.pageNum+1)}"
+                th:if="${index >= 1 && index <= pages.pages}" th:class="${index==pages.pageNum?'active':''}"><a
+                    class="page-link" th:text="${index}" th:href="@{/teacher/classCountDetail(pageNum=${index})}"></a></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 2}"><span class="page-link">...</span></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 1}"><a class="page-link"
+                                                                                th:text="${pages.pages}"
+                                                                                th:href="@{/teacher/classCountDetail(pageNum=${pages.pages})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/teacher/classCountDetail(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+<script src="../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+
+</script>
+</body>
+
+</html>

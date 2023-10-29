@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/css/style.css" rel="stylesheet"/>
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>社团创建</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/student/societyManage">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<div class="p-5">
+    <div class="d-flex flex-column col-md-8 mx-auto mt-5 p-4 rounded-4 border border-4 border-dark-subtle">
+        <h1 class="display-6 mx-auto fw-bold">社团创建</h1>
+        <form action="/student/createSocietyApplication" method="post" class="d-flex flex-column"
+              enctype="multipart/form-data">
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text" id="picture">社团团徽</span>
+                <label for="pictureInput" style="cursor: pointer">
+                    <img id="imagePreview" src="../../../static/images/add.png" alt="Preview"
+                         style="width: 200px; height: 200px;">
+                </label>
+                <input type="file" id="pictureInput" name="picture" accept="image/*" style="display: none;" required>
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text" id="societyName">社团名称</span>
+                <input type="text" class="form-control" aria-label="id" aria-describedby="addon-wrapping"
+                       name="societyName" required>
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">指导老师</span>
+                <span class="input-group-text">学院</span>
+                <select class="form-select form-control m-0 border border-right" name="departmentId" id="department"
+                        required>
+                    <!-- 这里显示学院 -->
+                </select>
+                <span class="input-group-text">老师</span>
+                <select class="form-select form-control m-0 border border-left" name="teacherNo" id="teacherNo"
+                        required>
+                    <!-- 此处将显示相应的老师 -->
+                </select>
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text" id="introduce">社团介绍</span>
+                <textarea type="text" class="form-control" aria-label="introduce"
+                          aria-describedby="addon-wrapping" name="introduce" required></textarea>
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text" id="reason">申请理由</span>
+                <textarea type="text" class="form-control" aria-label="reason"
+                          aria-describedby="addon-wrapping" name="reason" required></textarea>
+            </div>
+            <div class="d-inline-flex flex-row gap-5 mt-3 col-md-12 mx-auto mb-3">
+                <label th:if="${errMsg}!=null" th:text="${errMsg}" class="text-danger me-auto fs-5"></label>
+                <a href="/student/societyCreate" class="btn btn-secondary ">重&emsp;置</a>
+                <button type="submit" class="btn btn-primary ">提&emsp;交</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script src="../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+    // 添加事件监听器，当第一个 select 框的值改变时触发
+    $("#department").change(function () {
+        const selectedDepartment = $(this).val();
+        // 清空第二个 select 框的选项
+        $("#teacherNo").empty();
+
+        // 发送 AJAX 请求来获取与所选学院相关的老师数据
+        $.ajax({
+            type: "GET",
+            url: "/student/departmentTeachers", // 替换成你的后端 API 地址
+            data: {departmentId: selectedDepartment}, // 传递所选学院的标识符给后端
+            success: function (data) {
+                // 在成功回调中处理从后端获取的数据
+                $.each(data, function (index, teacher) {
+                    $("#teacherNo").append($("<option>").val(teacher.tno).text(teacher.tname));
+                });
+            },
+            error: function () {
+                // 处理错误情况
+                console.error("Failed to fetch teacher data");
+            }
+        });
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/student/departmentData",
+        dataType: "json",  // 告诉jQuery预期的响应数据类型是JSON
+        success: function (data) {
+            $.each(data, function (index, department) {
+                $("#department").append($("<option>").val(department.departmentNo).text(department.departmentName));
+            });
+        },
+        error: function () {
+            console.error("Failed to fetch department data");
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#pictureInput').on('change', function () {
+            const input = this;
+            const imagePreview = $('#imagePreview');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    imagePreview.attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+    });
+</script>
+</body>
+
+</html>

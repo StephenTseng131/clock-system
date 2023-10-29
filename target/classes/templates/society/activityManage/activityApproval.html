@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./../../../static/css/style.css" rel="stylesheet"/>
+    <link href="./../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="./../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>活动申请</title>
+</head>
+
+<body>
+<!-- 返回活动管理 -->
+<a href="/society/activityApprovalRecord">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<div class="p-5">
+<div class="d-flex flex-column col-md-8 mx-auto mt-5 p-4 rounded-4 border border-4 border-dark-subtle">
+    <form action="/society/addActivityApproval" method="post" class="d-flex flex-column">
+        <div class="input-group flex-nowrap mt-2">
+            <span class="input-group-text" id="name">活动名称</span>
+            <input type="text" class="form-control" aria-label="activityName" aria-describedby="addon-wrapping" name="activityName" required>
+        </div>
+        <div class="input-group flex-nowrap mt-2">
+            <span class="input-group-text" id="introduce">活动介绍</span>
+            <input type="text" class="form-control" aria-label="introduce" aria-describedby="addon-wrapping" name="introduce" required>
+        </div>
+        <div class="input-group flex-nowrap mt-2">
+            <span class="input-group-text">活动类别</span>
+            <select class="form-select form-control m-0 border border-right" name="type" id="type" required>
+                <option>--请选择--</option>
+                <option value="0">德育</option>
+                <option value="1">智育</option>
+                <option value="2">体育</option>
+                <option value="3">美育</option>
+                <option value="4">劳育</option>
+            </select>
+        </div>
+        <div class="input-group flex-nowrap mt-2">
+            <span class="input-group-text" id="credit">学分分值</span>
+            <input type="text" class="form-control" aria-label="credit" aria-describedby="addon-wrapping" name="credit" pattern="\d" required>
+        </div>
+        <div class="input-group flex-nowrap mt-2">
+            <span class="input-group-text" id="startTime">开始时间</span>
+            <input type="datetime-local" class="form-control" aria-label="startTime" aria-describedby="addon-wrapping" name="startTime" required>
+        </div>
+        <div class="input-group flex-nowrap mt-2">
+            <span class="input-group-text" id="endTime">结束时间</span>
+            <input type="datetime-local" class="form-control" aria-label="endTime" aria-describedby="addon-wrapping" name="endTime" required>
+        </div>
+        <div class="d-inline-flex flex-row gap-5 mt-3 col-md-12 mx-auto justify-content-end">
+            <button type="button" class="btn btn-secondary end-0">重&emsp;置</button>
+            <button type="submit" class="btn btn-primary end-0">提&emsp;交</button>
+        </div>
+    </form>
+</div>
+</div>
+
+<script src="./../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="./../../../static/js/jquery.js"></script>
+<script>
+
+</script>
+</body>
+
+</html>

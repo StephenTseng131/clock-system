@@ -1,0 +1,31 @@
+
+^
+java:S1192Ø"HDefine a constant instead of duplicating this literal "present" 3 times.(ÆËëL
+m
+java:S3776M"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(°ˆâ ıÿÿÿÿ
+f
+java:S3252£"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+Q
+java:S6213Û":Rename this variable to not match a restricted identifier.(Úö±Ò
+f
+java:S3252ù"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+f
+java:S3252€"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+f
+java:S3252®"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+f
+java:S3252È"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+k
+java:S3252Ö"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(¼°Î·ıÿÿÿÿ
+f
+java:S3252”"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+f
+java:S3252³"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+f
+java:S3252û"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(·É´í
+f
+java:S3252"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+f
+java:S3252á"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(·É´í
+f
+java:S3252ï"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(·É´í

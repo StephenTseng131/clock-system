@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>请假申请</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../static/css/style.css">
+</head>
+<body>
+<!-- 返回按钮 -->
+<a href="/student/stuLeaveRecord">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<br/>
+<br/>
+<div class="container mt-4">
+    <!-- 学生信息 -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">学生信息</h5>
+            <p>姓名:
+            <abc th:text="${leaveRecord.student.SName}"></abc></p >
+            <p>学号:
+            <abc th:text="${leaveRecord.student.SNo}"></abc></p >
+            <p>班级:
+            <abc th:text="${leaveRecord.student.stuClass.className}"></abc></p>
+        </div>
+    </div>
+
+    <!--         请假信息 -->
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">请假信息</h5>
+            <p>起始时间:
+            <abc th:text="${leaveRecord.startTime}"></abc></p >
+            <p>结束时间:
+            <abc th:text="${leaveRecord.endTime}"></abc></p >
+            <p>请假原因:
+            <abc th:text="${leaveRecord.reason}"></abc></p >
+        </div>
+    </div>
+</div>
+
+<!-- 引入 Bootstrap JavaScript，确保在 </body> 标签之前引入 -->
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+    window.addEventListener('beforeunload',function (event) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET",'/destroy',false);
+        xhr.send();
+        $.get("/student/destroy")
+    })
+</script>
+</body>
+</html>

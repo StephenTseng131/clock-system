@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发起打卡</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../static/css/style.css">
+</head>
+
+<body>
+<!-- 返回按钮 -->
+<a href="/teacher/attendRecord">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<br/>
+<br/>
+<div class="container mt-4" id="mainContent">
+    <!-- 教师信息 -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">教师信息</h5>
+            <p>教师姓名:
+                <abc th:text="${session.teacher.TName}"></abc>
+            </p>
+            <p>教师号:
+                <abc th:text="${session.teacher.TNo}"></abc>
+            </p>
+        </div>
+    </div>
+
+    <!-- 请假信息表单 -->
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">打卡信息</h5>
+            <form>
+                <div class="mb-3">
+                    <label for="courseClass" class="form-label">课&emsp;&emsp;程</label>
+                    <select class="form-select form-control" id="courseClass">
+                        <option th:each="course: ${teacherCourseList}" th:value="${course.teacherCourse.courseClass}">
+                            <span th:text="${course.courseName}"></span>
+                            <span th:switch="${course.week}">
+                            <span th:case="1">星期一</span>
+                            <span th:case="2">星期二</span>
+                            <span th:case="3">星期三</span>
+                            <span th:case="4">星期四</span>
+                            <span th:case="5">星期五</span>
+                            <span th:case="6">星期六</span>
+                            <span th:case="7">星期日</span>
+                        </span>
+                            <span th:text="${#dates.format(course.startTime, 'HH:mm:ss')}"></span>
+                            <span th:text="${course.teacherCourse.courseClass}"></span>
+                        </option>
+                        <!-- 添加更多课程选项 -->
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="startTime" class="form-label">起始时间 (可选):</label>
+                    <input type="datetime-local" class="form-control" id="startTime" name="startTime" required>
+                </div>
+                <div class="mb-3">
+                    <label for="endTime" class="form-label">结束时间 (可选):</label>
+                    <input type="datetime-local" class="form-control" id="endTime" name="endTime" required>
+                </div>
+                <div class="mb-3">
+                    <label for="code" class="form-label">签到码:</label>
+                    <input type="text" class="form-control" id="code" maxlength="6" name="code" pattern="\w{6}"
+                           placeholder="请输入签到码" required>
+                </div>
+                <button type="button" class="btn btn-success" id="submit">发布打卡</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/teacher/addCourse">添加更多课程选项</a>
+    </div>
+</div>
+
+<!-- 引入 Bootstrap JavaScript，确保在 </body> 标签之前引入 -->
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/jquery-3.4.1.min.js"></script>
+<script>
+    $("#submit").click(function (e) {
+        var courseClass = $("#courseClass").val();
+        var code = $("#code").val();
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+
+        // 添加条件检查
+        if (startTime <= endTime) {
+            $.post("/teacher/attendance", {
+                "courseClass": courseClass,
+                "code": code,
+                "startTime": startTime,
+                "endTime": endTime
+            }, function (data, status) {
+                if (data === 0) {
+                    alert("打卡发布成功！");
+                    window.location.href = "/teacher/attendRecord";
+                } else if (data === 2) {
+                    alert("请填入信息！");
+                } else {
+                    alert("当前课程无学生！");
+                }
+            });
+        } else {
+            alert("开始时间不能大于结束时间！");
+        }
+    });
+</script>
+</body>
+
+</html>

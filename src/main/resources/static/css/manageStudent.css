@@ -1,0 +1,27 @@
+a {  
+    text-decoration: none;  
+    color: inherit;  
+} 
+#search{
+    margin-top:-35px;
+    margin-left:470px;
+}
+#search-input{
+    height:40px;
+    border-width:2px;
+    border-radius: 7px;
+}
+#search-btn{
+    height:40px;
+}
+#infoContent{
+    margin-left:120px; 
+}
+#student-add{
+    margin-left:15px;
+    border-radius: 7px;
+}
+.btn:hover{
+    color:rgb(17, 255, 0)
+}
+ 

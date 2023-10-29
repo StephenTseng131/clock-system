@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./../../../static/css/style.css" rel="stylesheet"/>
+    <link href="./../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="./../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>学分统计</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/student/studentHome">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<div class="p-4">
+    <div class="col-md-11">
+        <form action="/student/creditSearch" method="post" class="d-flex justify-content-md-end me-4">
+            <label for="startTime" class=" mt-1 fs-5 me-2">开始时间</label>
+            <input type="datetime-local"  id="startTime" class=" rounded-2 m-0 border border-2 ps-2 col-md-2" name="startTime"/>
+            <span class="fw-bolder fs-4 ms-2 me-2">~</span>
+            <label for="endTime" class=" mt-1 fs-5 me-2">结束时间</label>
+            <input type="datetime-local" id="endTime" class=" rounded-2 m-0 border border-2 ps-2 col-md-2 me-2" name="endTime"/>
+            <button type="submit" class="btn btn-primary">筛选</button>
+        </form>
+    </div>
+    <div class="d-flex flex-row rounded-4 gap-4 border-dark-subtle col-md-10 mx-auto mt-5" style="border:8px solid">
+        <div class="d-flex flex-row col-md-2 border-dark-subtle" style="border-right:6px solid">
+            <a class="col-md-8 display-4 text-decoration-none text-secondary-emphasis ps-4 mt-5 fw-bold">学分统计</a>
+        </div>
+        <div class="d-flex flex-column  p-4 rounded-4 gap-4">
+            <p class="fs-4 m-0 p-0">德育学分：<abc th:text="${credit.moral}+'分'">1111</abc></p>
+            <p class="fs-4 m-0 p-0">智育学分：<abc th:text="${credit.intellectual}+'分'">1111</abc></p>
+            <p class="fs-4 m-0 p-0">体育学分：<abc th:text="${credit.physical}+'分'">1111</abc></p>
+            <p class="fs-4 m-0 p-0">美育学分：<abc th:text="${credit.aesthetic}+'分'">1111</abc></p>
+            <p class="fs-4 m-0 p-0">劳育学分：<abc th:text="${credit.labor}+'分'">111111</abc></p>
+            <p class="fs-4 m-0 p-0">综合学分：<abc th:text="${credit.total}+'分'">11111</abc></p>
+        </div>
+    </div>
+</div>
+<script src="./../../../static/js/jquery.js"></script>
+<script src="./../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script>
+
+</script>
+</body>
+
+</html>

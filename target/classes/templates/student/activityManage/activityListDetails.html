@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/css/style.css" rel="stylesheet"/>
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>活动参加详情</title>
+</head>
+
+<body>
+<!-- 返回上一页 -->
+<a href="/student/activityList">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<div class="p-5">
+    <div class="d-flex flex-column col-md-8 mx-auto mt-5 p-4 rounded-4 border border-4 border-dark-subtle">
+        <h1 class="display-6 mx-auto fw-bold">活动参加详情</h1>
+        <p class="fs-4 m-0 p-0">活动序号：
+            <abc id="activityNo" th:text="${activity.activityNo}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">活动名称：
+            <abc th:text="${activity.activityName}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">活动类型：
+            <abc th:if="${activity.type}==0">德育</abc>
+            <abc th:if="${activity.type}==1">智育</abc>
+            <abc th:if="${activity.type}==2">体育</abc>
+            <abc th:if="${activity.type}==3">美育</abc>
+            <abc th:if="${activity.type}==4">劳育</abc>
+        </p>
+        <p class="fs-4 m-0 p-0">活动学分：
+            <abc th:text="${activity.credit}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">活动开始：
+            <abc th:text="${activity.startTime}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">活动时间：
+            <abc th:text="${activity.endTime}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">主办社团：
+            <abc th:text="${activity.society.societyName}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0" style="text-wrap: normal">活动介绍：
+            <abc th:text="${activity.introduce}"></abc>
+        </p>
+        <div class="d-inline-flex flex-row gap-5 mt-3 col-md-12 mx-auto mb-3 justify-content-center">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-secondary col-md-2" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal" id="join">
+                参&emsp;加
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="../../../static/js/jquery.js"></script>
+<script src="../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#join").click(function () {
+            // 获取输入标签的值
+            var activityNo = $("#activityNo").text();
+            // 发起 POST 请求
+            $.post("/student/joinActivity", {
+                "activityNo": activityNo
+            }, function (data, status) {
+                if (data === 0) {
+                    alert("活动参加成功!");
+                    window.location.href = "/student/activityManage";
+                } else {
+                    alert("您已加入该活动，请勿重复添加!");
+
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

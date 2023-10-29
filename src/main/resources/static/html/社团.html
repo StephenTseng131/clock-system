@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet">
+    <title>社团找回密码</title>
+</head>
+
+<body>
+<div class="p-5">
+    <div class="d-flex flex-column col-md-6 mx-auto mt-5 p-4 rounded-4 border border-4 border-dark-subtle">
+        <h1 class="display-6 mx-auto fw-bold">社团找回密码</h1>
+        <form action="#" method="post" class="d-flex flex-column">
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">社&emsp;团&emsp;号</span>
+                <input type="text" class="form-control" aria-label="id" aria-describedby="addon-wrapping" id="societyId">
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">创始人姓名</span>
+                <input type="text" class="form-control" aria-label="password" aria-describedby="addon-wrapping" id="sName">
+            </div>
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">指导老师名</span>
+                <input type="text" class="form-control" aria-label="name" aria-describedby="addon-wrapping" id="tName">
+            </div>
+            <div class="d-inline-flex flex-row gap-5 mt-3 col-md-12 mx-auto justify-content-end">
+                <button type="button" class="btn btn-secondary end-0" id="clear">清&emsp;空</button>
+                <button type="button" class="btn btn-primary end-0" id="reset">重&emsp;置</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../js/jquery-3.4.1.min.js"></script>
+<script src="../bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script>
+    $("#reset").click(function () {
+        societyId=$("#societyId").val("");
+        sName=$("#sName").val();
+        tName=$("#tName").val();
+        $.post("/resetSociety",{
+            "societyId":societyId,
+            "sName":sName,
+            "tName":tName
+        },function(data){
+            if(data==0){
+                alert("重置成功，密码为123456");
+            }else{
+                alert("重置失败");
+            }
+        }).fail(function(){
+            alert("重置失败");
+        })
+    });
+
+
+    $("#clear").click(function () {
+        location.reload();
+    })
+</script>
+</body>
+
+</html>

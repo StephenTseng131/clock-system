@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>请假申请</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../static/css/style.css">
+</head>
+<body>
+<!-- 返回按钮 -->
+<a href="/teacher/leaveRecordJudge">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<br/>
+<br/>
+<div class="container mt-4">
+    <!-- 学生信息 -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">学生信息</h5>
+            <p>姓名:
+                <abc th:text="${session.leaveRecordT.student.SName}"></abc>
+            </p>
+            <p>学号:
+                <abc th:text="${session.leaveRecordT.SNo}"></abc>
+            </p>
+            <p>班级:
+                <abc th:text="${session.leaveRecordT.student.stuClass.className}"></abc>
+            </p>
+        </div>
+    </div>
+
+    <!-- 请假信息 -->
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">请假信息</h5>
+            <p class="theMain">请假编号:
+                <abc th:text="${session.leaveRecordT.leaveNo} " class="first"></abc>
+            </p>
+            <p>起始时间:
+                <abc th:text="${session.leaveRecordT.startTime}"></abc>
+            </p>
+            <p>结束时间:
+                <abc th:text="${session.leaveRecordT.endTime}"></abc>
+            </p>
+            <p>请假原因:
+                <abc th:text="${session.leaveRecordT.reason}"></abc>
+            </p>
+        </div>
+    </div>
+
+    <!-- 通过和不通过按钮 -->
+    <div class="mt-4">
+        <button class="btn btn-success" id="yes">通过</button>
+        <button class="btn btn-danger" id="no">不通过</button>
+    </div>
+</div>
+
+<!-- 引入 Bootstrap JavaScript，确保在 </body> 标签之前引入 -->
+<script src="../../../static/js/bootstrap.min.js"></script>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+    $('#yes').click(function () {
+        var theMain = $(this).parent().parent();
+        var first = theMain.find(".first").text();
+        $.post("/teacher/updateLeaveStatus", {
+            "result": 1,
+            "leaveNo":first
+        }, function () {
+            window.location.href = "/teacher/leaveRecordJudge";
+        })
+    })
+    $('#no').click(function () {
+        var theMain = $(this).parent().parent();
+        var first = theMain.find(".first").text();
+        $.post("/teacher/updateLeaveStatus", {
+            "result": 2,
+            "leaveNo":first
+        }, function () {
+            window.location.href = "/teacher/leaveRecordJudge";
+        })
+    })
+</script>
+</body>
+</html>

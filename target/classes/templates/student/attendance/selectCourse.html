@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>添加课程</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <script src="../../../static/js/jquery.js"></script>
+    <!-- Meta tag Keywords -->
+    <!-- css files -->
+    <link rel="stylesheet" href="../../../static/css/addUser.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="../../../static/css/style.css" type="text/css" media="all"/>
+    <!-- Style-CSS -->
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+    <!-- web-fonts -->
+
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/student/attendance">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<!-- //title -->
+<!-- content -->
+<div class="col-md-4 mt-5" style="position:absolute;top:10%;left:30%;">
+    <div class="mx-auto mt-5 d-flex flex-column justify-content-center border border-secondary border-3 rounded-3" id="content-add">
+        <span class="display-6 fw-bold col-md-12 text-secondary text-center">添加课程</span>
+        <form id="targetDiv" class="col-md-12 d-flex flex-column justify-content-center m-3">
+            <div class="d-flex flex-row justify-content-start col-md-8 mb-3 mx-auto">
+                <p class="col-md-3 p-2 border border-secondary border-2">课程码</p>
+                <input class="col-md-9 p-2" type="text" id="courseClass" maxlength="8" pattern="\w{8}" placeholder="请输入课程码" name="courseCode" required>
+            </div>
+            <button type="button" class="btn btn-primary col-md-5 mx-auto" id="btn-add">完成</button>
+        </form>
+    </div>
+</div>
+
+</body>
+<script>
+    $('#btn-add').click(function () {
+        var courseClass = $('#courseClass').val();
+        $.post("/student/courseSelect", {
+            "courseClass": courseClass,
+        }, function (data, status) {
+            if (data === 0) {
+                alert("添加成功")
+                window.location.href = "/student/attendance"
+            } else if (data === 1) {
+                alert("课程码错误")
+            } else {
+                alert("课程时间冲突")
+            }
+        })
+    })
+</script>
+</html>

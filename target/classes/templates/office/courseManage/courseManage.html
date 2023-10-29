@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./../../../static/css/style.css" rel="stylesheet"/>
+    <link href="./../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="./../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>课程管理</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/office/officeHome">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<a type="button"
+   class="btn btn-success fw-bold position-absolute  rounded-5 mt-2 end-0 translate-middle border border-3 border-success"
+   href="/office/addCourse">添加课程</a>
+<div class="d-flex btn-group-vertical mt-5 col-md-10 m-auto">
+    <div class="col-md-10">
+        <form action="/office/officeCourseSearch" method="post" class="d-flex justify-content-md-end">
+            <input type="text" placeholder="请输入筛选条件" class=" rounded-2 m-0 border border-2 ps-2" name="searchContent"/>
+            <button type="submit" class="btn btn-primary">筛选</button>
+        </form>
+    </div>
+    <table class="table table-striped mt-2">
+        <thead>
+        <tr>
+            <th scope="col">课程号</th>
+            <th scope="col">课程名</th>
+            <th scope="col">课程教师</th>
+            <th scope="col">星期</th>
+            <th scope="col">开始时间</th>
+            <th scope="col">结束时间</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider" th:if="${pages.list}!=null">
+        <tr th:each="course:${pages.list}" class="theMain">
+            <td th:text="${course.courseNo}" class="courseNo"></td>
+            <td th:text="${course.courseName}"></td>
+            <td th:text="${course.teacher.tName}"></td>
+            <td th:switch="${course.week}">
+                <span th:case="1">星期一</span>
+                <span th:case="2">星期二</span>
+                <span th:case="3">星期三</span>
+                <span th:case="4">星期四</span>
+                <span th:case="5">星期五</span>
+                <span th:case="6">星期六</span>
+                <span th:case="7">星期日</span>
+            <td th:text="${#dates.format(course.startTime, 'HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(course.endTime, 'HH:mm:ss')}"></td>
+            <td>
+                <button type="button" class="btn btn-danger deleteBtn">删除</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example" th:if="${pages.pages > 1 && pages.pages <6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/office/courseManage(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:each="index:${#numbers.sequence(1,pages.pages)}"
+                th:class="${index==pages.pageNum?'active':''}"><a class="page-link" th:text="${index}"
+                                                                  th:href="@{/office/courseManage(pageNum=${index})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/office/courseManage(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+    <nav aria-label="Page navigation example" th:if="${pages.pages >= 6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/office/courseManage(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:if="${pages.pageNum > 2}"><a class="page-link"
+                                                                  th:href="@{/office/courseManage(pageNum=1)}">1</a></li>
+            <li class="page-item" th:if="${pages.pageNum > 3}"><span class="page-link">...</span></li>
+            <li class="page-item" th:each="index:${#numbers.sequence(pages.pageNum - 1,pages.pageNum+1)}"
+                th:if="${index >= 1 && index <= pages.pages}" th:class="${index==pages.pageNum?'active':''}"><a
+                    class="page-link" th:text="${index}" th:href="@{/office/courseManage(pageNum=${index})}"></a></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 2}"><span class="page-link">...</span></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 1}"><a class="page-link"
+                                                                                th:text="${pages.pages}"
+                                                                                th:href="@{/office/courseManage(pageNum=${pages.pages})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/office/courseManage(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script src="./../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="./../../../static/js/jquery.js"></script>
+<script>
+    $('.deleteBtn').click(function () {
+        var theMain = $(this).parent().parent()
+        var courseNo = theMain.find(".courseNo").text();
+        $.post("/office/officeDelete", {
+            "courseNo": courseNo
+        }, function (data) {
+            if (data !== 0) {
+                alert("删除成功")
+                theMain.remove();
+            } else {
+                alert("删除失败")
+            }
+        }).fail(function () {
+            alert("删除失败")
+        })
+    })
+</script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet">
+    <title>紧急情况</title>
+</head>
+
+<body>
+<div class="p-5">
+    <div class="d-flex flex-column col-md-6 mx-auto mt-5 p-4 rounded-4 border border-4 border-dark-subtle">
+        <h1 class="display-6 mx-auto fw-bold">紧急情况处理</h1>
+        <form class="d-flex flex-column">
+            <div class="input-group flex-nowrap mt-2">
+                <span class="input-group-text">序&emsp;列&emsp;号</span>
+                <input type="text" class="form-control" aria-label="id" aria-describedby="addon-wrapping" name="secret" id="secret">
+            </div>
+            <div class="d-inline-flex flex-row gap-5 mt-3 col-md-12 mx-auto justify-content-end">
+                <button type="button" class="btn btn-primary end-0" id="enter">进&emsp;入</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="../js/jquery.js"></script>
+<script>
+    $("#enter").click(function () {
+        $.post("/emergencyDeal",{
+            "secret":$("#secret").val()
+        },function(data){
+            if(data==0){
+                alert("处理成功");
+            }else{
+                alert("处理失败");
+            }
+        }).fail(function(){
+            alert("处理失败");
+        })
+    })
+</script>
+</body>
+
+</html>

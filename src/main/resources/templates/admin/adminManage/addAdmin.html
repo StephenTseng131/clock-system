@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>添加管理员</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <script src="../../../static/js/jquery.js"></script>
+    <!-- Meta tag Keywords -->
+    <!-- css files -->
+    <link rel="stylesheet" href="../../../static/css/addUser.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="../../../static/css/style.css" type="text/css" media="all"/>
+    <!-- Style-CSS -->
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+    <!-- web-fonts -->
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/admin/adminManage">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+
+<!-- title -->
+<center>
+    <h1 class="header-w3ls" id="title-add">添加管理员</h1>
+</center>
+<!-- //title -->
+<!-- content -->
+<div class="porduct-order-agile">
+    <form action="/admin/adminAdd" method="post">
+        <div class="form-group">
+            <p>账号</p>
+            <input type="text" class="form-control input-group" name="id" id="id" pattern="\w{4}" maxlength="4"
+                   placeholder="请输入账号，限定长度为4" required>
+        </div>
+        <div class="form-group">
+            <p>密码</p>
+            <input type="password" class="form-control input-group" name="password" pattern="^.{6,}$" maxlength="30"
+                   placeholder="请输入密码,6-30位" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="btn-add">完成</button>
+    </form>
+</div>
+</body>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+    $("#id").blur(function () {
+        var id = $(this).val();
+        $.post("/admin/adminAddJudge", {
+            "id": id
+        }, function (data) {
+            if (data === 1) {
+                alert("用户已存在");
+                $(this).val("");
+            }
+        })
+    })
+</script>
+</html>

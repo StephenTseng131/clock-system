@@ -1,0 +1,15 @@
+
+e
+java:S1192 "HDefine a constant instead of duplicating this literal "classes" 4 times.(ØëÔw8çĞ°µ1
+q
+java:S1192Î"NDefine a constant instead of duplicating this literal "studentUpdate" 5 times.(Òäúÿÿÿÿ8çĞ°µ1
+c
+java:S1192+"FDefine a constant instead of duplicating this literal "pages" 6 times.(îíº²8çĞ°µ1
+q
+java:S1192²"NDefine a constant instead of duplicating this literal "teacherUpdate" 5 times.(ÍÃš±úÿÿÿÿ8çĞ°µ1
+^
+java:S1128"ARemove this unused import 'com.example.clocksystem.entity.Class'.(éÿ—8š—’§µ1
+Z
+java:S1128"=Remove this unused import 'com.github.pagehelper.PageHelper'.(ğ÷¨¹8˜êŞ´1
+^
+java:S1128"BRemove this unused import 'com.github.pagehelper.page.PageMethod'.(èšÍ|8™êŞ´1

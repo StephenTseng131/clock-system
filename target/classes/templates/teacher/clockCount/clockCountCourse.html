@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/css/style.css" rel="stylesheet"/>
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>考勤统计</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/teacher/teacherHome">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+
+<a type="button" class="btn btn-outline-primary float-end m-4 me-5 p-3 rounded-5" th:if="${session.teacher.roleName=='辅导员'}" href="/teacher/clockCountClass">课程考勤</a>
+<a type="button" class="btn btn-outline-primary float-end m-4 me-5 p-3 rounded-5 invisible" th:if="${session.teacher.roleName!='辅导员'}">课程考勤</a>
+
+<div class="d-flex justify-content-center col-md-12">
+    <div class="d-flex  flex-wrap col-md-6 align-content-start gap-3">
+        <button class="btn btn-primary col-md-5" type="button" th:each="item:${courses}" th:text="${item.courseName}"></button>
+    </div>
+</div>
+
+<script src="../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+    $('button').click(function () {
+        var courseName = $(this).text();
+        window.location.href="/teacher/courseCount/" + courseName;
+    })
+</script>
+</body>
+
+</html>

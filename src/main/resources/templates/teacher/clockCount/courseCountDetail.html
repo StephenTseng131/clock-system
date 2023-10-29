@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/css/style.css" rel="stylesheet"/>
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>考勤统计</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/teacher/clockCount">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<div class="d-flex btn-group-vertical mt-4 col-md-8 m-auto">
+    <h1 class="display-6 d-block m-auto fw-bolder" role="heading" th:if="${session.value=='present'}">出勤记录</h1>
+    <h1 class="display-6 d-block m-auto fw-bolder" role="heading" th:if="${session.value=='absent'}">缺勤记录</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">学号</th>
+            <th scope="col">姓名</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider" th:if="${students}!=null">
+        <tr th:each="item:${students}">
+            <td th:text="${item.SNo}"></td>
+            <td th:text="${item.SName}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<script src="../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+
+E
+java:S1066V"/Merge this if statement with the enclosing one.(…¸²½
+m
+java:S3776l"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(Õ¹ø¿şÿÿÿÿ
+S
+java:S1854~"8Remove this useless assignment to local variable "flag".(ÚÄ¦òøÿÿÿÿ
+f
+java:S3252¤"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+f
+java:S3252º"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+f
+java:S3252Û"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+f
+java:S3252Ë"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ
+f
+java:S3252ì"OUse static access with "com.github.pagehelper.page.PageMethod" for "startPage".(ƒÃôÌ

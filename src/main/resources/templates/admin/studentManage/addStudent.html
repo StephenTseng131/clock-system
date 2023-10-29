@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>添加学生</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <script src="../../../static/js/jquery.js"></script>
+    <!-- Meta tag Keywords -->
+    <!-- css files -->
+    <link rel="stylesheet" href="../../../static/css/addUser.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="../../../static/css/style.css" type="text/css" media="all"/>
+    <!-- Style-CSS -->
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+    <!-- web-fonts -->
+
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/admin/studentManage">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<!-- title -->
+<center>
+    <h1 class="header-w3ls" id="title-add">添加学生</h1>
+</center>
+<!-- //title -->
+<!-- content -->
+<div class="porduct-order-agile" id="content-add">
+    <form action="/admin/studentAdd" method="post" id="targetDiv">
+        <div class="form-group">
+            <p>班级</p>
+            <select class="form-select custom-select form-control" id="classNo" name="classNo">
+                <option th:each="item:${classes}" th:value="${item.classNo}" th:text="${item.className}"></option>
+                <!-- 添加更多教师选项 -->
+            </select>
+        </div>
+        <div class="form-group">
+            <p>姓名 </p>
+            <input type="text" name="sName" placeholder="请输入姓名" required>
+        </div>
+        <div class="form-group">
+            <p>密码</p>
+            <input type="password" name="password" maxlength="30" pattern="^.{6,30}$" placeholder="请输入密码,6-30位"
+                   value="123456" required>
+        </div>
+        <div class="form-group">
+            <p>身份证号码</p>
+            <input type="text" name="idCard" maxlength="18" pattern="\w{18}" placeholder="请输入身份证号码" required>
+        </div>
+        <div class="form-group">
+            <p>手机号码</p>
+            <input type="text" name="sPhone" maxlength="11" pattern="\d{11}" placeholder="请输入11位手机号码" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="btn-add">完成</button>
+    </form>
+</div>
+</body>
+</html>

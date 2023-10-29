@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/css/style.css" rel="stylesheet"/>
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>活动详情</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/society/activityManage">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+   class="btn btn-outline-success fw-bold rounded-5 mt-2 ms-1 position-absolute
+   end-0 translate-middle border border-3 border-success" href="#">活动设置</a>
+<div class="d-flex btn-group-vertical mt-4 col-md-10 m-auto">
+    <h1 class="display-6 d-block m-auto fw-bolder" role="heading" th:text="${activityDetail.activityName}+'参与人员名单'"></h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">学号</th>
+            <th scope="col">姓名</th>
+            <th scope="col">状态</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider" th:if="${pages.list}!=null">
+        <tr th:each="studentActivity:${pages.list}">
+            <td th:text="${studentActivity.sNo}" class="sno"></td>
+            <td th:text="${studentActivity.student.sName}"></td>
+            <td th:switch="${studentActivity.status}">
+                <span th:case="0">未签到</span>
+                <span th:case="1">已签到</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example" th:if="${pages.pages > 1 && pages.pages <6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/society/activity(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:each="index:${#numbers.sequence(1,pages.pages)}"
+                th:class="${index==pages.pageNum?'active':''}"><a class="page-link" th:text="${index}"
+                                                                  th:href="@{/society/activity(pageNum=${index})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/society/activity(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+    <nav aria-label="Page navigation example" th:if="${pages.pages >= 6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/society/activity(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:if="${pages.pageNum > 2}"><a class="page-link"
+                                                                  th:href="@{/society/activity(pageNum=1)}">1</a></li>
+            <li class="page-item" th:if="${pages.pageNum > 3}"><span class="page-link">...</span></li>
+            <li class="page-item" th:each="index:${#numbers.sequence(pages.pageNum - 1,pages.pageNum+1)}"
+                th:if="${index >= 1 && index <= pages.pages}" th:class="${index==pages.pageNum?'active':''}"><a
+                    class="page-link" th:text="${index}" th:href="@{/society/activity(pageNum=${index})}"></a></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 2}"><span class="page-link">...</span></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 1}"><a class="page-link"
+                                                                                th:text="${pages.pages}"
+                                                                                th:href="@{/society/activity(pageNum=${pages.pages})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/society/activity(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">活动设置</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body m-2 p-0 d-flex flex-column">
+                <div class="d-flex flex-column  rounded-4">
+                    <p class="fs-4 m-0 p-0">活动名称：
+                        <abc id="first" th:text="${activityDetail.activityName}"></abc>
+                    </p>
+                    <p class="fs-4 m-0 p-0">类型：&emsp;&emsp;
+                        <abc th:switch="${activityDetail.type}">
+                            <span th:case="0">德育</span>
+                            <span th:case="1">智育</span>
+                            <span th:case="2">体育</span>
+                            <span th:case="3">美育</span>
+                            <span th:case="4">劳育</span>
+                        </abc>
+                    </p>
+                    <p class="fs-4 m-0 p-0">学分：&emsp;&emsp;
+                        <abc th:text="${activityDetail.credit}"></abc>
+                    </p>
+                    <p class="fs-4 m-0 p-0">活动时间：
+                        <abc th:text="${#dates.format(activityDetail.startTime, 'YYYY-MM-dd HH:mm:ss')}+'~'+${#dates.format(activityDetail.endTime, 'YYYY-MM-dd HH:mm:ss')}"></abc>
+                    </p>
+                    <p class="fs-4 m-0 p-0" style="text-wrap: normal">活动介绍：
+                        <abc th:text="${activityDetail.introduce}"></abc>
+                    </p>
+                </div>
+                <form action="/society/setActivityCode" method="post" class="d-flex flex-row">
+                    <label  for="attendCode" class="fs-4 m-0 p-0">签到码：</label>
+                    <input type="text" class="ms-2 me-2 rounded-2 border border-left-0 border-right-0" id="attendCode" name="code" th:value="${activityDetail.code}" placeholder="请输入签到码" required>
+                    <button type="submit" class="btn btn-secondary">设置签到码</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../../static/js/jquery.js"></script>
+<script src="../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script>
+
+</script>
+</body>
+
+</html>

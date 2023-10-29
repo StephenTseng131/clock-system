@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>添加课程</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <script src="./../../../static/js/jquery.js"></script>
+    <!-- Meta tag Keywords -->
+    <!-- css files -->
+    <link rel="stylesheet" href="./../../../static/css/addUser.css" type="text/css" media="all">
+    <link rel="stylesheet" href="./../../../static/css/bootstrap.min.css" type="text/css" media="all">
+    <link rel="stylesheet" href="./../../../static/css/style.css" type="text/css" media="all">
+    <!-- Style-CSS -->
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+    <!-- web-fonts -->
+
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/office/courseManage">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png">
+        <span>返回</span>
+    </div>
+</a>
+<!-- title -->
+<center>
+    <h1 class="header-w3ls" id="title-add">添加课程</h1>
+</center>
+<!-- //title -->
+<!-- content -->
+<div class="porduct-order-agile mt-0 p-0" id="content-add">
+    <form action="/office/officeAddCourse" method="post" id="targetDiv">
+        <div class="form-group">
+            <p>课程名称</p>
+            <input type="text" name="courseName" id="courseName" placeholder="请输入课程名称" required>
+        </div>
+        <div class="input-group border border-1 border-dark p-0 mb-3">
+            <span class="input-group-text">学院 and 老师</span>
+            <select class="form-select form-control m-0 border border-right" name="departmentId" id="department">
+                <!-- 这里显示学院 -->
+            </select>
+            <select class="form-select form-control m-0 border border-left" name="teacherNo" id="teacherNo">
+                <!-- 此处将显示相应的老师 -->
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="week" class="form-label">星期</label>
+            <select class="form-select custom-select form-control" name="week" id="week">
+                <option value="1">星期一</option>
+                <option value="2">星期二</option>
+                <option value="3">星期三</option>
+                <option value="4">星期四</option>
+                <option value="5">星期五</option>
+                <option value="6">星期六</option>
+                <option value="7">星期天</option>
+                <!-- 添加更多课程选项 -->
+            </select>
+        </div>
+        <div class="mb-3 col-5 d-inline-block m-0 p-0">
+            <label for="week" class="form-label">课程开始时间</label>
+            <select class="form-select custom-select form-control" name="startTime" id="startTime">
+                <option value="1">第一小节</option>
+                <option value="2">第二小节</option>
+                <option value="3">第三小节</option>
+                <option value="4">第四小节</option>
+                <option value="5">第五小节</option>
+                <option value="6">第六小节</option>
+                <option value="7">第七小节</option>
+                <option value="8">第八小节</option>
+                <option value="9">第九小节</option>
+                <option value="10">第十小节</option>
+                <option value="11">第十一小节</option>
+                <option value="12">第十二小节</option>
+                <!-- 添加更多课程选项 -->
+            </select>
+        </div>
+        <div class="mb-3 col-5 d-inline-block m-0 p-0">
+            <label for="week" class="form-label">课程结束时间</label>
+            <select class="form-select custom-select form-control" name="endTime" id="endTime">
+                <option value="1">第一小节</option>
+                <option value="2">第二小节</option>
+                <option value="3">第三小节</option>
+                <option value="4">第四小节</option>
+                <option value="5">第五小节</option>
+                <option value="6">第六小节</option>
+                <option value="7">第七小节</option>
+                <option value="8">第八小节</option>
+                <option value="9">第九小节</option>
+                <option value="10">第十小节</option>
+                <option value="11">第十一小节</option>
+                <option value="12">第十二小节</option>
+                <!-- 添加更多课程选项 -->
+            </select>
+        </div>
+        <label th:if="${errMsg}!=null" th:text="${errMsg}" class="text-danger mt-0"></label>
+        <button type="submit" class="btn btn-primary d-block" id="btn-add">完成</button>
+    </form>
+</div>
+</body>
+<script>
+    // 添加事件监听器，当第一个 select 框的值改变时触发
+    $("#department").change(function () {
+        const selectedDepartment = $(this).val();
+        // 清空第二个 select 框的选项
+        $("#teacherNo").empty();
+
+        // 发送 AJAX 请求来获取与所选学院相关的老师数据
+        $.ajax({
+            type: "GET",
+            url: "/office/departmentTeachers", // 替换成你的后端 API 地址
+            data: {departmentId: selectedDepartment}, // 传递所选学院的标识符给后端
+            success: function (data) {
+                // 在成功回调中处理从后端获取的数据
+                $.each(data, function (index, teacher) {
+                    $("#teacherNo").append($("<option>").val(teacher.tno).text(teacher.tname));
+                });
+            },
+            error: function () {
+                // 处理错误情况
+                console.error("Failed to fetch teacher data");
+            }
+        });
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/office/departmentData",
+        dataType: "json",  // 告诉jQuery预期的响应数据类型是JSON
+        success: function (data) {
+            $.each(data, function (index, department) {
+                $("#department").append($("<option>").val(department.departmentNo).text(department.departmentName));
+            });
+        },
+        error: function () {
+            console.error("Failed to fetch department data");
+        }
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        // 获取第一个 select 元素
+        const startTimeSelect = $("#startTime");
+        // 获取第二个 select 元素
+        const endTimeSelect = $("#endTime");
+
+        // 添加事件监听器，当第一个 select 发生变化时触发
+        startTimeSelect.on("change", function () {
+            // 获取第一个 select 的选中值
+            const selectedStartTime = parseInt(startTimeSelect.val());
+
+            // 清除第二个 select 的选中项
+            endTimeSelect.val(null);
+
+            // 禁用第二个 select 的选项，使小节小于第一个 select的值不可选
+            endTimeSelect.find("option").prop("disabled", false);
+            endTimeSelect.find("option").each(function () {
+                const endTime = parseInt($(this).val());
+                if (endTime < selectedStartTime) {
+                    $(this).prop("disabled", true);
+                }
+            });
+        });
+    });
+</script>
+</html>

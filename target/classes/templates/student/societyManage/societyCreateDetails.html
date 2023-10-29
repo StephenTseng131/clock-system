@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/css/style.css" rel="stylesheet"/>
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>创立详情</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/student/societyManage">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<div class="p-5">
+    <div class="d-flex flex-column col-md-8 mx-auto mt-5 p-4 rounded-4 border border-4 border-dark-subtle">
+        <h1 class="display-6 mx-auto fw-bold">申请相关</h1>
+        <img th:src="'data:image/png;base64,' + ${imageData}" class="rounded mx-auto d-block imageChange" style="height: 200px;width: 200px" id="sign" alt="无法找到图片">
+        <p class="fs-4 m-0 p-0">社团名称：
+            <abc id="first" th:text="${societyApplication.societyName}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">指导老师：
+            <abc th:text="${societyApplication.teacher.tName}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">社团介绍：
+            <abc th:text="${societyApplication.introduce}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">申请理由：
+            <abc th:text="${societyApplication.reason}"></abc>
+        </p>
+        <label th:if="${societyApplication.status}==1">
+            <p class="fs-4 m-0 p-0">社&emsp;团ID：
+                <abc th:text="${societyApplication.society.societyId}"></abc>
+            </p>
+            <p class="fs-4 m-0 p-0">密&emsp;&emsp;码：
+                <abc th:text="${societyApplication.society.password}"></abc>
+            </p>
+        </label>
+    </div>
+</div>
+
+<script src="../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="../../../static/js/jquery.js"></script>
+<script>
+
+</script>
+</body>
+
+</html>

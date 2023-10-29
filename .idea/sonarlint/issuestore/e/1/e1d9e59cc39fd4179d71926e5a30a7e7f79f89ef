@@ -1,0 +1,20 @@
+
+q
+java:S1192Ò"NDefine a constant instead of duplicating this literal "applicationNo" 4 times.(û§”îÿÿÿÿÿ8Õ²¹µ·1
+]
+java:S1192W"GDefine a constant instead of duplicating this literal "pages" 21 times.(Á™²½
+_
+java:S1192C"IDefine a constant instead of duplicating this literal "teacher" 33 times.(§¡„
+d
+java:S1192“"FDefine a constant instead of duplicating this literal "value" 6 times.(¤ÓÄ÷8Õ²¹µ·1
+f
+java:S1192ö"HDefine a constant instead of duplicating this literal "classNo" 4 times.(…µØş8Õ²¹µ·1
+[	java:S106¼"9Replace this use of System.out or System.err by a logger.(Ö×ÔĞûÿÿÿÿ8«¶¹µ·1
+V	java:S106½"9Replace this use of System.out or System.err by a logger.(ØŸ¦8«¶¹µ·1
+V	java:S106›"9Replace this use of System.out or System.err by a logger.(áŒ•û8»¶¹µ·1
+^
+java:S1128"ARemove this unused import 'com.example.clocksystem.entity.Class'.(éÿ—8¡†˜”¶1
+M
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8¡†˜”¶1
+o
+java:S1128"RRemove this unused import 'com.example.clocksystem.utils.SearchJudge.searchJudge'.(ç’ã8¡†˜”¶1

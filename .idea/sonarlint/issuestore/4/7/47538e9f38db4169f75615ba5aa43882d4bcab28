@@ -1,0 +1,13 @@
+
+d
+java:S11922"IDefine a constant instead of duplicating this literal "student" 25 times.(•Ê“†şÿÿÿÿ
+^
+java:S1192–"GDefine a constant instead of duplicating this literal "pages" 10 times.(œ÷€Õ
+b
+java:S1192í"KDefine a constant instead of duplicating this literal "activityNo" 5 times.(á¼Õ’
+d
+java:S1192Š"HDefine a constant instead of duplicating this literal "clockNo" 3 times.(¦éµàøÿÿÿÿ
+M
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8­æÆŠ¶1
+o
+java:S1128"RRemove this unused import 'com.example.clocksystem.utils.SearchJudge.searchJudge'.(ç’ã8­æÆŠ¶1

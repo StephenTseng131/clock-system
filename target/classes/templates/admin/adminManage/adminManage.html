@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <link href="../../../static/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="../../../static/css/style.css" rel="stylesheet" />
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <title>管理员页面</title>
+</head>
+
+<body>
+    <!-- 返回主页 -->
+    <a href="/admin/admin">
+        <div class="back-to-index">
+            <img class="image" src="../../../static/images/return.png" />
+            <span>返回</span>
+        </div>
+    </a>
+    <br/>
+    <br/>
+    <div class="container mt-2 col-md-10" id="infoContent">
+        <h2>管理员信息管理</h2>
+        <div class="container" id="search">
+            <div class="row">
+                <div class="col-md-5">
+                    <form action="/admin/adminSearch" method="post">
+                        <div class="input-group justify-content-center">
+                            <input id="search-input" type="text" name="searchContent" class="form-control" placeholder="请输入筛选内容">
+                            <div class="input-group-append">
+                                <button id="search-btn" class="btn btn-primary" type="submit">筛选</button>
+                            </div>
+                            <button id="student-add" class="btn btn-success" type="button"><a href="/admin/addAdmin">添加管理员</a></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">账号</th>
+                    <th scope="col">密码</th>
+                    <th scope="col">操作</th>
+                </tr>
+            </thead>
+            <tbody th:if="${pages.list}!=null">
+                <tr th:each="admin:${pages.list}" class="theMain">
+                    <td th:text="${admin.id}" class="id"></td>
+                    <td th:text="${admin.password}"></td>
+                    <td>
+                        <button class="btn btn-danger deleteBtn">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <nav aria-label="Page navigation example" th:if="${pages.pages > 1 && pages.pages <6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}" th:href="@{/admin/adminManage(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:each="index:${#numbers.sequence(1,pages.pages)}" th:class="${index==pages.pageNum?'active':''}"><a class="page-link" th:text="${index}" th:href="@{/admin/adminManage(pageNum=${index})}"></a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}" th:href="@{/admin/adminManage(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+    <nav aria-label="Page navigation example" th:if="${pages.pages >= 6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}" th:href="@{/admin/adminManage(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:if="${pages.pageNum > 2}"><a class="page-link" th:href="@{/admin/adminManage(pageNum=1)}">1</a></li>
+            <li class="page-item" th:if="${pages.pageNum > 3}"><span class="page-link">...</span></li>
+            <li class="page-item" th:each="index:${#numbers.sequence(pages.pageNum - 1,pages.pageNum+1)}" th:if="${index >= 1 && index <= pages.pages}" th:class="${index==pages.pageNum?'active':''}"><a class="page-link" th:text="${index}" th:href="@{/admin/adminManage(pageNum=${index})}"></a></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 2}"><span class="page-link">...</span></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 1}"><a class="page-link" th:text="${pages.pages}" th:href="@{/admin/adminManage(pageNum=${pages.pages})}"></a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}" th:href="@{/admin/adminManage(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+
+    <script src="../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+    <script src="../../../static/js/jquery-3.4.1.min.js"></script>
+    <script>
+        $('.deleteBtn').click(function(){
+            var theMain=$(this).parent().parent()
+            var id=theMain.find(".id").text();
+            $.post("/admin/adminDelete",{
+                "id":id
+            },function(data){
+                if(data!==0){
+                    alert("删除成功")
+                    window.location.href="/admin/adminManage"
+                }
+                else{
+                    alert("删除失败")
+                }
+            }).fail(function(){
+                alert("删除失败")
+            })
+        })
+    </script>
+</body>
+
+</html>

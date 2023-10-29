@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/css/style.css" rel="stylesheet"/>
+    <link href="../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>活动详情</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/student/activityManage">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+<div class="p-5">
+    <div class="d-flex flex-column col-md-8 mx-auto mt-5 p-4 rounded-4 border border-4 border-dark-subtle">
+        <h1 class="display-6 mx-auto fw-bold">活动详情</h1>
+        <p class="fs-4 m-0 p-0">活动名称：
+            <abc th:text="${studentActivity.activity.activityName}" id="first"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">活动类型：
+            <abc th:if="${studentActivity.activity.type}==0">德育</abc>
+            <abc th:if="${studentActivity.activity.type}==1">智育</abc>
+            <abc th:if="${studentActivity.activity.type}==2">体育</abc>
+            <abc th:if="${studentActivity.activity.type}==3">美育</abc>
+            <abc th:if="${studentActivity.activity.type}==4">劳育</abc>
+        </p>
+        <p class="fs-4 m-0 p-0">活动学分：
+            <abc th:text="${studentActivity.activity.credit}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">活动开始：
+            <abc th:text="${studentActivity.activity.startTime}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">活动时间：
+            <abc th:text="${studentActivity.activity.endTime}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">主持社团：
+            <abc th:text="${studentActivity.activity.society.societyName}"></abc>
+        </p>
+        <p class="fs-4 m-0 p-0">签到状态：
+            <abc th:if="${studentActivity.status}==0">未签到</abc>
+            <abc th:if="${studentActivity.status}==1">已签到</abc>
+        </p>
+        <p class="fs-4 m-0 p-0" style="text-wrap: normal">活动介绍：
+            <abc th:text="${studentActivity.activity.introduce}"></abc>
+        </p>
+        <div class="d-inline-flex flex-row gap-5 mt-3 col-md-12 mx-auto mb-3 justify-content-center">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-secondary col-md-2" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal" th:if="${studentActivity.status==0}">
+                签&emsp;到
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">活动签到</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body m-0 p-0">
+                <input type="text" id="code" class="h-100 w-100 m-0 p-3 border border-left-0 border-right-0"
+                       placeholder="请输入签到码" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-success" id="signInButton">签到</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../../static/js/jquery.js"></script>
+<script src="../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#signInButton").click(function () {
+            // 获取输入标签的值
+            var signInCode = $("#code").val();
+            // 发起 POST 请求
+            $.post("/student/studentActivityAttendance", {
+                "code": signInCode
+            }, function (data, status) {
+                if (data === 0) {
+                    alert("签到成功");
+                    window.location.href = "/student/activityManage";
+                } else {
+                    alert("签到失败");
+                }
+            });
+        });
+    });
+</script>
+</body>
+
+</html>

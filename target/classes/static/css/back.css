@@ -1,0 +1,40 @@
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.back-to-index>i{
+    font-size: 22px;
+    font-weight: 800;
+    position: relative;
+}
+.back-to-index:hover{
+    color: #5487ff;
+}
+.back-to-index{
+    position: absolute;
+    left: 35px;
+    top: 20px;
+    width: 120px;
+    height: 30px;
+    line-height: 27px;
+    text-align: center;
+    border: solid 3px #5487ff;
+    border-radius: 20px;
+    color: #333;
+    font-size: 18px;
+    font-weight: 800;
+}
+@font-face {
+    font-family: 'iconfont';
+    src: url('./../font/iconfont.woff2') format('woff2'),
+        url('./../font/iconfont.woff') format('woff'),
+        url('./../font/iconfont.ttf') format('truetype');
+}
+.image{
+    width: 20px;
+    height:auto;
+    margin-top:-7px;
+}

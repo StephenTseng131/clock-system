@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./../../../static/css/style.css" rel="stylesheet"/>
+    <link href="./../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="./../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>社团管理</title>
+</head>
+
+<body>
+<!-- 返回主页 -->
+<a href="/office/officeHome">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+
+<div class="d-flex btn-group-vertical mt-5 col-md-10 m-auto">
+    <div class="col-md-10">
+        <form action="/office/officeSocietySearch" method="post" class="d-flex justify-content-md-end">
+            <input type="text" placeholder="请输入筛选条件" class=" rounded-2 m-0 border border-2 ps-2"/>
+            <button type="submit" class="btn btn-primary">筛选</button>
+        </form>
+    </div>
+    <table class="table table-striped mt-2">
+        <thead>
+        <tr>
+            <th scope="col">社团编号</th>
+            <th scope="col">名称</th>
+            <th scope="col">创始人</th>
+            <th scope="col">指导老师</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider" th:if="${pages.list}!=null">
+        <tr th:each="society:${pages.list}" class="theMain">
+            <td th:text="${society.societyId}" class="societyId"></td>
+            <td th:text="${society.societyName}"></td>
+            <td th:text="${society.sNo}"></td>
+            <td th:text="${society.tNo}"></td>
+            <td>
+                <button type="button" class="btn btn-danger deleteBtn">删除</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example" th:if="${pages.pages > 1 && pages.pages <6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/office/societyManage(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:each="index:${#numbers.sequence(1,pages.pages)}"
+                th:class="${index==pages.pageNum?'active':''}"><a class="page-link" th:text="${index}"
+                                                                  th:href="@{/office/societyManage(pageNum=${index})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/office/societyManage(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+    <nav aria-label="Page navigation example" th:if="${pages.pages >= 6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/office/societyManage(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:if="${pages.pageNum > 2}"><a class="page-link"
+                                                                  th:href="@{/office/societyManage(pageNum=1)}">1</a></li>
+            <li class="page-item" th:if="${pages.pageNum > 3}"><span class="page-link">...</span></li>
+            <li class="page-item" th:each="index:${#numbers.sequence(pages.pageNum - 1,pages.pageNum+1)}"
+                th:if="${index >= 1 && index <= pages.pages}" th:class="${index==pages.pageNum?'active':''}"><a
+                    class="page-link" th:text="${index}" th:href="@{/office/societyManage(pageNum=${index})}"></a></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 2}"><span class="page-link">...</span></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 1}"><a class="page-link"
+                                                                                th:text="${pages.pages}"
+                                                                                th:href="@{/office/societyManage(pageNum=${pages.pages})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/office/societyManage(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script src="./../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="./../../../static/js/jquery.js"></script>
+<script>
+    $('.deleteBtn').click(function () {
+        var theMain = $(this).parent().parent()
+        var societyId = theMain.find(".societyId").text();
+        $.post("/office/deleteSociety", {
+            "societyId": societyId
+        }, function (data) {
+            if (data !== 0) {
+                alert("删除成功")
+                window.location.href="/office/societyManage"
+            } else {
+                alert("删除失败")
+            }
+        }).fail(function () {
+            alert("删除失败")
+        })
+    })
+</script>
+</body>
+
+</html>

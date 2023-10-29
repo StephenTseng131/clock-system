@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./../../../static/css/style.css" rel="stylesheet"/>
+    <link href="./../../../static/css/manageStudent.css" rel="stylesheet"/>
+    <link href="./../../../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css" rel="stylesheet"/>
+    <title>活动审批</title>
+</head>
+
+<body>
+<!-- 返回活动管理页面 -->
+<a href="/teacher/teacherHome">
+    <div class="back-to-index">
+        <img class="image" src="../../../static/images/return.png"/>
+        <span>返回</span>
+    </div>
+</a>
+
+<div class="d-flex btn-group-vertical mt-5 col-md-10 m-auto">
+    <div class="col-md-10">
+        <form action="/teacher/activityCheckSearch" method="post" class="d-flex justify-content-md-end">
+            <input type="text" placeholder="请输入筛选条件" class=" rounded-2 m-0 border border-2 ps-2" name="searchContent"/>
+            <button type="submit" class="btn btn-primary">筛选</button>
+        </form>
+    </div>
+    <table class="table table-striped mt-2">
+        <thead>
+        <tr>
+            <th scope="col">申请编号</th>
+            <th scope="col">活动名称</th>
+            <th scope="col">开始时间</th>
+            <th scope="col">结束时间</th>
+            <th scope="col">类型</th>
+            <th scope="col">状态</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider" th:if="${pages.list}!=null">
+        <tr th:each="teacherApplication:${pages.list}" class="theMain">
+            <td th:text="${teacherApplication.applicationNo}" class="applicationNo"></td>
+            <td th:text="${teacherApplication.activityApplication.activityName}"></td>
+            <td th:text="${#dates.format(teacherApplication.activityApplication.startTime,'YYYY-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(teacherApplication.activityApplication.endTime,'YYYY-MM-dd HH:mm:ss')}"></td>
+            <td th:switch="${teacherApplication.activityApplication.type}">
+                <span th:case="0">德育</span>
+                <span th:case="1">智育</span>
+                <span th:case="2">体育</span>
+                <span th:case="3">美育</span>
+                <span th:case="4">劳育</span>
+            </td>
+            <td th:switch="${teacherApplication.status}">
+                <span th:case="0">审核中</span>
+                <span th:case="1">审核通过</span>
+                <span th:case="2">审核不通过</span>
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary detail" th:if="${teacherApplication.status}==0">详情</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example" th:if="${pages.pages > 1 && pages.pages <6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/teacher/activityCheckReord(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:each="index:${#numbers.sequence(1,pages.pages)}"
+                th:class="${index==pages.pageNum?'active':''}"><a class="page-link" th:text="${index}"
+                                                                  th:href="@{/teacher/activityCheckReord(pageNum=${index})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/teacher/activityCheckReord(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+    <nav aria-label="Page navigation example" th:if="${pages.pages >= 6}">
+        <ul class="pagination justify-content-md-end col-md-10">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" th:if="${!pages.isFirstPage}"
+                   th:href="@{/teacher/activityCheckReord(pageNum=${pages.hasPreviousPage}?${pages.prePage}:1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                <span class="page-link" aria-label="Previous" th:if="${pages.isFirstPage}">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+            <li class="page-item" th:if="${pages.pageNum > 2}"><a class="page-link"
+                                                                  th:href="@{/teacher/activityCheckReord(pageNum=1)}">1</a></li>
+            <li class="page-item" th:if="${pages.pageNum > 3}"><span class="page-link">...</span></li>
+            <li class="page-item" th:each="index:${#numbers.sequence(pages.pageNum - 1,pages.pageNum+1)}"
+                th:if="${index >= 1 && index <= pages.pages}" th:class="${index==pages.pageNum?'active':''}"><a
+                    class="page-link" th:text="${index}" th:href="@{/teacher/activityCheckReord(pageNum=${index})}"></a></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 2}"><span class="page-link">...</span></li>
+            <li class="page-item" th:if="${pages.pageNum < pages.pages - 1}"><a class="page-link"
+                                                                                th:text="${pages.pages}"
+                                                                                th:href="@{/teacher/activityCheckReord(pageNum=${pages.pages})}"></a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next" th:if="${!pages.isLastPage}"
+                   th:href="@{/teacher/activityCheckReord(pageNum=${pages.hasNextPage}?${pages.nextPage}:${pages.pages})}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                <span class="page-link" href="#" aria-label="Next" th:if="${pages.isLastPage}">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script src="./../../../static/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+<script src="./../../../static/js/jquery.js"></script>
+<script>
+    $('.detail').click(function () {
+        var theMain = $(this).parent().parent();
+        var applicationNo = theMain.find(".applicationNo").text();
+        $.post("/teacher/teacherActivityApplicationDetail", {
+            "applicationNo": applicationNo
+        }, function () {
+            window.location.href = "/teacher/teacherActivityApplication"
+        }).fail(function (data, status) {
+            alert("error")
+        })
+    })
+</script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>登录页面</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <!-- //Meta tag Keywords -->
+    <link href="./../static/bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="//fonts.googleapis.com/css2?family=Karla:wght@400;700&display=swap" rel="stylesheet"/>
+    <!--/Style-CSS -->
+    <link rel="stylesheet" href="./../static/css/login.css" type="text/css" media="all"/>
+    <!--//Style-CSS -->
+</head>
+
+<body>
+
+<!-- form section start -->
+<section class="w3l-workinghny-form">
+    <!-- /form -->
+    <div class="workinghny-form-grid">
+        <div class="wrapper">
+            <div class="logo">
+                <h1><span>方圆</span>登录</a></h1>
+            </div>
+            <div class="workinghny-block-grid">
+                <div class="workinghny-left-img align-end">
+                    <img src="../static/images/login.jpg" class="img-responsive" alt="img"/>
+                </div>
+                <div class="form-right-inf">
+                    <div class="login-form-content">
+                        <h2>Where to?</h2>
+                        <form action="/login" class="signin-form" method="post">
+                            <div class="one-frm">
+
+                                <label>用户名</label>
+                                <input type="text" name="username" placeholder="请输入用户名" required>
+                            </div>
+                            <div class="one-frm">
+                                <label>密&emsp;码</label>
+                                <input type="password" class="mb-0" name="password" placeholder="请输入密码" required>
+                            </div>
+                            <div class="one-frm">
+                                <label class="text-danger fs-6" th:if="${errMsg}!=null" th:text="${errMsg}"></label>
+                            </div>
+                            <div class="one-frm col-md-12 d-flex justify-content-md-end">
+                                <a href="/findPassword" class="fs-6 text-secondary text-decoration-underline">忘记密码</a>
+                            </div>
+                            <div class="one-frm">
+                                <button type="submit" class="btn btn-style mt-3">登录</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- //form section start -->
+
+</body>
+
+</html>
